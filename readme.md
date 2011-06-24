@@ -1,0 +1,1 @@
+An implementation of [Danny Holten](http://www.win.tue.nl/~dholten/)'s *hierarchical edge bundling* algorithm in [D3.js](http://mbostock.github.com/d3/), showing dependencies between classes in a software class hierarchy. Dependencies are bundled according to the parent packages.
