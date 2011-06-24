@@ -23,7 +23,7 @@
     <script type="text/javascript">
 
 var cluster = d3.layout.cluster()
-    .size([360, 960 - 120])
+    .size([360, 480])
     .sort(null)
     .value(function(d) { return d.size; });
 
@@ -39,7 +39,7 @@ var vis = d3.select("body").append("svg:svg")
     .attr("width", 960)
     .attr("height", 960)
   .append("svg:g")
-    .attr("transform", "translate(480,250)");
+    .attr("transform", "translate(480,480)");
 
 d3.json("readme.json", function(classes) {
   var nodes = cluster(packages.root(classes)),
