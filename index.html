@@ -23,7 +23,7 @@
     <script type="text/javascript">
 
 var cluster = d3.layout.cluster()
-    .size([360, 130])
+    .size([360, 960 - 120])
     .sort(null)
     .value(function(d) { return d.size; });
 
@@ -37,7 +37,7 @@ var line = d3.svg.line.radial()
 
 var vis = d3.select("body").append("svg:svg")
     .attr("width", 960)
-    .attr("height", 500)
+    .attr("height", 960)
   .append("svg:g")
     .attr("transform", "translate(480,250)");
 
@@ -64,7 +64,7 @@ d3.json("readme.json", function(classes) {
       .text(function(d) { return d.data.key; });
 });
 
-
+d3.select(self.frameElement).style("height", "960px");
 
     </script>
   </body>
