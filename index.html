@@ -18,8 +18,9 @@
 <body>
 <script>
 
-var outerRadius = 960 / 2,
-    innerRadius = outerRadius - 120;
+var diameter = 960,
+    radius = diameter / 2,
+    innerRadius = radius - 120;
 
 var cluster = d3.layout.cluster()
     .size([360, innerRadius])
@@ -35,10 +36,10 @@ var line = d3.svg.line.radial()
     .angle(function(d) { return d.x / 180 * Math.PI; });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", outerRadius * 2)
-    .attr("height", outerRadius * 2)
+    .attr("width", diameter)
+    .attr("height", diameter)
   .append("g")
-    .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+    .attr("transform", "translate(" + radius + "," + radius + ")");
 
 d3.json("readme.json", function(classes) {
   var nodes = cluster(packages.root(classes)),
@@ -63,6 +64,6 @@ d3.json("readme.json", function(classes) {
       .text(function(d) { return d.data.key; });
 });
 
-d3.select(self.frameElement).style("height", outerRadius + "px");
+d3.select(self.frameElement).style("height", diameter + "px");
 
 </script>
