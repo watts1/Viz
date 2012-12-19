@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<script src="http://d3js.org/d3.v2.js?2.9.1"></script>
-<script src="readme.js"></script>
 <style>
 
 .node {
@@ -16,6 +14,7 @@
 
 </style>
 <body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
 var diameter = 960,
@@ -41,7 +40,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + radius + "," + radius + ")");
 
-d3.json("readme.json", function(classes) {
+d3.json("readme-flare-imports.json", function(error, classes) {
   var nodes = cluster(packages.root(classes)),
       links = packages.imports(nodes);
 
@@ -65,5 +64,52 @@ d3.json("readme.json", function(classes) {
 });
 
 d3.select(self.frameElement).style("height", diameter + "px");
+
+var packages = {
+
+  // Lazily construct the package hierarchy from class names.
+  root: function(classes) {
+    var map = {};
+
+    function find(name, data) {
+      var node = map[name], i;
+      if (!node) {
+        node = map[name] = data || {name: name, children: []};
+        if (name.length) {
+          node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
+          node.parent.children.push(node);
+          node.key = name.substring(i + 1);
+        }
+      }
+      return node;
+    }
+
+    classes.forEach(function(d) {
+      find(d.name, d);
+    });
+
+    return map[""];
+  },
+
+  // Return a list of imports for the given array of nodes.
+  imports: function(nodes) {
+    var map = {},
+        imports = [];
+
+    // Compute a map from name to node.
+    nodes.forEach(function(d) {
+      map[d.data.name] = d;
+    });
+
+    // For each import, construct a link from the source to target node.
+    nodes.forEach(function(d) {
+      if (d.data.imports) d.data.imports.forEach(function(i) {
+        imports.push({source: map[d.data.name], target: map[i]});
+      });
+    });
+
+    return imports;
+  }
+};
 
 </script>
