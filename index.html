@@ -48,7 +48,7 @@
 
 </style>
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script>
 
 var diameter = 960,
@@ -78,6 +78,8 @@ var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
 d3.json("readme-flare-imports.json", function(error, classes) {
+  if (error) throw error;
+
   var nodes = cluster.nodes(packageHierarchy(classes)),
       links = packageImports(nodes);
 
