@@ -72,8 +72,10 @@ var svg = d3.select("body").append("svg")
 var link = svg.append("g").selectAll(".link"),
     node = svg.append("g").selectAll(".node");
 
-d3.json("flare.json", function(error, classes) {
+d3.csv("credits.csv", function(error, credits) {
   if (error) throw error;
+  
+  var classes = creditsToClasses( credits );
 
   var root = packageHierarchy(classes)
       .sum(function(d) { return d.size; });
@@ -142,7 +144,8 @@ function packageHierarchy(classes) {
   }
 
   classes.forEach(function(d) {
-    find(d.name, d);
+	if( typeof d.name != 'undefined')
+		find(d.name, d);
   });
 
   return d3.hierarchy(map[""]);
@@ -160,12 +163,50 @@ function packageImports(nodes) {
 
   // For each import, construct a link from the source to target node.
   nodes.forEach(function(d) {
-    if (d.data.imports) d.data.imports.forEach(function(i) {
-      imports.push(map[d.data.name].path(map[i]));
-    });
+    if (d.data.imports) 
+		d.data.imports.forEach(function(i) {
+			var input = map[d.data.name];
+			var mapi = map[i];
+			if( typeof mapi != 'undefined'){
+				var path = input.path(mapi);
+				imports.push(path);
+			}
+		});
   });
 
   return imports;
 }
 
+function creditsToClasses( credits){
+ var classArray = [];
+
+ for( var column =4; column < 41; column++){
+	 var classObj = {};
+	 classObj.name =  credits.columns[column];
+	 classObj.size = 1;
+	 classObj.imports=[];
+	 classArray.push(classObj);
+ }
+ for(var row =1; row < credits.length; row++){
+ 	var classObj = {};
+	var contributor = credits[row];
+	classObj.name = contributor["FULL NAME"];
+	classObj.imports=[];
+
+	var size =1;
+	for( var column = 3; column < 47;column++){
+		if( contributor[credits.columns[column]]==1){
+			classObj.imports.push(credits.columns[column]) ;
+			size++;
+		}
+	}
+	classObj.size = size;
+
+	classArray.push(classObj);
+
+ }
+ return classArray;
+}
+
 </script>
+
