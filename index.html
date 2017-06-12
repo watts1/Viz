@@ -180,7 +180,7 @@ function packageImports(nodes) {
 function creditsToClasses( credits){
  var classArray = [];
 
- for( var column =4; column < credits.columns.length; column++){
+ for( var column =0; column < credits.columns.length; column++){
 	 var classObj = {};
 	 classObj.name =  credits.columns[column];
 	 classObj.size = 1;
@@ -194,7 +194,7 @@ function creditsToClasses( credits){
 	classObj.imports=[];
 
 	var size =1;
-	for( var column = 3; column < credits.columns.length;column++){
+	for( var column = 0; column < credits.columns.length;column++){
 		if( contributor[credits.columns[column]]==1){
 			classObj.imports.push(credits.columns[column]) ;
 			size++;
