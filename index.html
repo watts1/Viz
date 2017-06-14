@@ -50,6 +50,16 @@
 <body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+<input style="position:relative;top:3px;" type="range" min="0" max="100" value="85">
+
+d3.select("input[type=range]").on("change", function() {
+  line.tension(this.value / 100);
+  // more needed here (see below)
+  link.attr("d", line);
+});
+
+
+
 
 var diameter = 960,
     radius = diameter / 2,
