@@ -51,13 +51,6 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-d3.select("input[type=range]").on("change", function() {
-  line.tension(this.value / 100);
-  // more needed here (see below)
-  link.attr("d", line);
-});
-
-
 
 
 var diameter = 960,
