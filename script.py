@@ -20,7 +20,7 @@ class CreditList:
 			#if len(row.imports)
 			include_string = ','.join('"{0}"'.format(w) for w in row.imports)
 			#print include_string
-			f1.write('{\"name\":\"'+row.name+'\",\"size\":0,\"imports\":['+include_string+']},\n')
+			f1.write('{\"name\":\"'+"NORTH"+"."+row.type+"."+row.name+'\",\"size\":0,\"imports\":['+include_string+']},\n')
 		f1.write(']\n')
 		#REMOVE THE LAST COMMA!!!!
 		
@@ -55,15 +55,15 @@ def main():
 			continue
 		#
 		if idx < 28:
-			Cred.cList.append(CreditEntry(col, "task"))
+			Cred.cList.append(CreditEntry(col, "Task"))
 			continue
 		if idx < 39:
-			Cred.cList.append(CreditEntry(col, "country"))
+			Cred.cList.append(CreditEntry(col, "Country"))
 			continue
-		Cred.cList.append(CreditEntry(col, "track"))
+		Cred.cList.append(CreditEntry(col, "Track"))
 
 	for index in credits.iterrows():
-		Cred.cList.append(CreditEntry(index[1]['FULL NAME'], "person"))
+		Cred.cList.append(CreditEntry(index[1]['FULL NAME'], "Person"))
 		
 		#If the person worked on a track, add the track to imports
 		for i,track in enumerate(index[1][38:49]):
@@ -83,6 +83,6 @@ def main():
 		#n.display()
 	
 	#Print to file
-	Cred.toJson("flare.json")
+	Cred.toJson("flare4.json")
 	
 if __name__== "__main__":main()
